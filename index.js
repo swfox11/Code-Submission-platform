@@ -12,6 +12,7 @@ const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const port = process.env.PORT;
 
+//connecting with database
 const db = new pg.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
@@ -25,13 +26,14 @@ const db = new pg.Client({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// base route fetches submission form page
 app.get("/",(req,res)=>{
     res.render("form.ejs");
 });
 
 
 
-
+//submitting the code in the database
 app.post("/post",async (req,res)=>{
     let langId;
 
@@ -59,6 +61,7 @@ app.post("/post",async (req,res)=>{
     
       try {
         
+        // api call to get the output of the code
             const options = {
             method: 'POST',
             url: 'https://online-code-compiler.p.rapidapi.com/v1/',
@@ -104,7 +107,7 @@ app.post("/post",async (req,res)=>{
 });
 
 
-
+//display route to show the table of submissions.
 app.get("/display",async (req,res)=>{
   try {
     let output=await db.query("SELECT * FROM records ");
