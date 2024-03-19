@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Submission Form</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/clike/clike.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/python/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/theme/darcula.min.css">
+
+  <style>
+    /* Custom dropdown style */
+    body{
+        background-color: #1e2630;
+        color: azure;
+        font-size: 20px;
+        
+    }
+    #heading{
+        text-align: center;
+        /* margin-left: 300px;
+        margin-right: 300px; */
+    }
+    .section {
+      background-color: #1e2630;
+      color: azure;
+      
+       justify-content: center; 
+      align-items: center;
+      height: 100vh;
+       margin-left: 50px; 
+       margin-right: 30px;
+      /* max-width: 1000px; */
+    }
+    
+    .custom-dropdown {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #19191f;
+      color: azure;
+      font-size: 16px;
+    }
+
+    /* CodeMirror styles */
+    .CodeMirror {
+      /* max-width: 1000px; */
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #2b2b2b;
+      color: white;
+      width: auto;
+    }
+
+    /* Styles for standard input (stdin) */
+    #stdin {
+      width: auto;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      background-color: #2b2b2b;
+      color: white;
+      resize: vertical; /* Allow vertical resizing */
+      padding: 8px;
+      margin-top: 8px;
+    }
+    #user{
+         width:"350px";
+         height:"60px";
+    }
+
+    /* Styles for submit button */
+    button[type="submit"] {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+
+    h2 {
+      text-align: center; /* Center the heading horizontally */
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="heading">Code Submission Form</h1>
+ <div class="section">
+  <form id="codeForm" method="post" action="/post">
+    <div id="user">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username"  autofocus required><br><br>
+    </div>
+    <div>
+      <label for="language">Preferred Code Language:</label>
+      <select id="language" name="language" class="custom-dropdown">
+        <option value="C++">C++</option>
+        <option value="java">Java</option>
+        <option value="javascript(Node.Js)">JavaScript(Node.Js)</option>
+        <option value="python">Python</option>
+      </select>
+    </div><br>
+    <div>
+      <label for="sourceCode">Source Code:</label><br>
+      <textarea id="sourceCode" name="sourceCode" rows="10" cols="50" class="CodeMirror"></textarea>
+    </div><br><br>
+    <div>
+      <label for="stdin">Standard Input (stdin):</label><br>
+      <textarea id="stdin" name="stdin" rows="2" cols="50" class="CodeMirror"></textarea>
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+      
+  </form><br>
+  <form action="/display">
+    <div>
+        <button type="submit">View Submissions</button>
+      </div>
+  </form>
+</div>
+  <script>
+    // Initialize CodeMirror for syntax highlighting
+    const sourceCodeTextarea = document.getElementById("sourceCode");
+    const sourceCodeEditor = CodeMirror.fromTextArea(sourceCodeTextarea, {
+      lineNumbers: true,
+      mode: "text/x-c++src", // Default mode
+      theme: "darcula" // Dark theme
+    });
+
+    // Change mode based on selected language
+    const languageSelect = document.getElementById("language");
+    languageSelect.addEventListener("change", function() {
+      const selectedLanguage = this.value;
+      if (selectedLanguage === "cpp") {
+        sourceCodeEditor.setOption("mode", "text/x-c++src");
+      } else if (selectedLanguage === "java") {
+        sourceCodeEditor.setOption("mode", "text/x-java");
+      } else if (selectedLanguage === "javascript") {
+        sourceCodeEditor.setOption("mode", "text/javascript");
+      } else if (selectedLanguage === "python") {
+        sourceCodeEditor.setOption("mode", "text/x-python");
+      }
+    });
+  </script>
+
+</body>
+</html>
